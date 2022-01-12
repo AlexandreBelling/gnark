@@ -47,6 +47,7 @@ import (
 	"math/big"
 	"reflect"
 
+	"github.com/AlexandreBelling/gnark/frontend"
 	witness_bls12377 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-377/witness"
 	witness_bls12381 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-381/witness"
 	witness_bls24315 "github.com/AlexandreBelling/gnark/notinternal/backend/bls24-315/witness"
@@ -55,7 +56,6 @@ import (
 	witness_bw6761 "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-761/witness"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"github.com/AlexandreBelling/gnark/notinternal/parser"
-	"github.com/AlexandreBelling/gnarkfrontend"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 

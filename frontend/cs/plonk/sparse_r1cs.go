@@ -24,9 +24,9 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/frontend/cs"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkfrontend/cs"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 

@@ -6,8 +6,8 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkbackend/hint"
+	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/backend/hint"
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/fxamacker/cbor/v2"
 )

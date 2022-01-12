@@ -25,7 +25,7 @@ import (
 
 	"github.com/fxamacker/cbor/v2"
 
-	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnark/backend"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/ioutils"
 

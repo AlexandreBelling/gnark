@@ -17,7 +17,7 @@ limitations under the License.
 package fields_bls12377
 
 import (
-	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnark/frontend"
 	bls12377 "github.com/consensys/gnark-crypto/ecc/bls12-377"
 )
 

@@ -17,7 +17,7 @@ limitations under the License.
 // Package hash provides an interface that hash functions (as gadget) should implement.
 package hash
 
-import "github.com/AlexandreBelling/gnarkfrontend"
+import "github.com/AlexandreBelling/gnark/frontend"
 
 type Hash interface {
 

@@ -22,9 +22,9 @@ package plonk
 import (
 	"io"
 
-	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkfrontend/cs/plonk"
+	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/frontend/cs/plonk"
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark-crypto/kzg"
 

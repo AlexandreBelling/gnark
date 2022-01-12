@@ -17,8 +17,8 @@ limitations under the License.
 package sw_bls12377
 
 import (
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkstd/algebra/fields_bls12377"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/std/algebra/fields_bls12377"
 	bls12377 "github.com/consensys/gnark-crypto/ecc/bls12-377"
 )
 

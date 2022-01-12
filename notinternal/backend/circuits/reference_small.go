@@ -3,7 +3,7 @@ package circuits
 import (
 	"math/big"
 
-	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnark/frontend"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 

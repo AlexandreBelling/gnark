@@ -19,8 +19,8 @@ package sw_bls24315
 import (
 	"math/big"
 
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkstd/algebra/fields_bls24315"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/std/algebra/fields_bls24315"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 

@@ -24,7 +24,7 @@ import (
 	"io"
 	"reflect"
 
-	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnark/frontend"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"github.com/AlexandreBelling/gnark/notinternal/parser"
 

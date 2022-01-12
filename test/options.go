@@ -17,8 +17,8 @@ limitations under the License.
 package test
 
 import (
-	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/frontend"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 

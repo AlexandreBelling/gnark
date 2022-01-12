@@ -21,7 +21,7 @@ import (
 	"hash"
 	"math/big"
 
-	"github.com/AlexandreBelling/gnarkstd/accumulator/merkle"
+	"github.com/AlexandreBelling/gnark/std/accumulator/merkle"
 	"github.com/consensys/gnark-crypto/accumulator/merkletree"
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr/mimc"
 )

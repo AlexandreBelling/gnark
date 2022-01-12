@@ -21,9 +21,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkstd/hash/mimc"
-	"github.com/AlexandreBelling/gnarktest"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/std/hash/mimc"
+	"github.com/AlexandreBelling/gnark/test"
 	"github.com/consensys/gnark-crypto/accumulator/merkletree"
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr"

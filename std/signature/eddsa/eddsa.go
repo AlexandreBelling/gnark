@@ -18,9 +18,9 @@ limitations under the License.
 package eddsa
 
 import (
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkstd/algebra/twistededwards"
-	"github.com/AlexandreBelling/gnarkstd/hash/mimc"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/std/algebra/twistededwards"
+	"github.com/AlexandreBelling/gnark/std/hash/mimc"
 )
 
 // PublicKey stores an eddsa public key (to be used in gnark circuit)

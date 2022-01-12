@@ -25,12 +25,12 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/backend/hint"
+	"github.com/AlexandreBelling/gnark/frontend"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"github.com/AlexandreBelling/gnark/notinternal/parser"
 	"github.com/AlexandreBelling/gnark/notinternal/utils"
-	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkbackend/hint"
-	"github.com/AlexandreBelling/gnarkfrontend"
 )
 
 // Add returns res = i1+i2+...in

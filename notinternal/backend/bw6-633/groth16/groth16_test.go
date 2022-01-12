@@ -29,9 +29,9 @@ import (
 	bw6_633groth16 "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-633/groth16"
 	"testing"
 
-	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkfrontend/cs/r1cs"
+	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/frontend/cs/r1cs"
 )
 
 //--------------------//

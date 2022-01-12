@@ -19,15 +19,15 @@ package groth16_bls24315
 import (
 	"testing"
 
+	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/frontend"
 	backend_bls24315 "github.com/AlexandreBelling/gnark/notinternal/backend/bls24-315/cs"
 	groth16_bls24315 "github.com/AlexandreBelling/gnark/notinternal/backend/bls24-315/groth16"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/bls24-315/witness"
-	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkstd/algebra/fields_bls24315"
-	"github.com/AlexandreBelling/gnarkstd/algebra/sw_bls24315"
-	"github.com/AlexandreBelling/gnarkstd/hash/mimc"
-	"github.com/AlexandreBelling/gnarktest"
+	"github.com/AlexandreBelling/gnark/std/algebra/fields_bls24315"
+	"github.com/AlexandreBelling/gnark/std/algebra/sw_bls24315"
+	"github.com/AlexandreBelling/gnark/std/hash/mimc"
+	"github.com/AlexandreBelling/gnark/test"
 	"github.com/consensys/gnark-crypto/ecc"
 	bls24315 "github.com/consensys/gnark-crypto/ecc/bls24-315"
 )

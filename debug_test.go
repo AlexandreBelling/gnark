@@ -5,11 +5,11 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkbackend/groth16"
-	"github.com/AlexandreBelling/gnarkbackend/plonk"
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarktest"
+	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/backend/groth16"
+	"github.com/AlexandreBelling/gnark/backend/plonk"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/test"
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/stretchr/testify/require"
 )

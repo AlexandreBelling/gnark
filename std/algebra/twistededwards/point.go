@@ -19,7 +19,7 @@ package twistededwards
 import (
 	"math/big"
 
-	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnark/frontend"
 )
 
 // Point point on a twisted Edwards curve in a Snark cs

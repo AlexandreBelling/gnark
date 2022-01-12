@@ -27,7 +27,7 @@ import (
 
 	"fmt"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnark/backend"
 	bn254witness "github.com/AlexandreBelling/gnark/notinternal/backend/bn254/witness"
 	"github.com/AlexandreBelling/gnark/notinternal/utils"
 	"math/big"

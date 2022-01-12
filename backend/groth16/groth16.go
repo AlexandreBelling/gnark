@@ -24,15 +24,15 @@ import (
 
 	"github.com/consensys/gnark-crypto/ecc"
 
+	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/frontend/cs/r1cs"
 	backend_bls12377 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-377/cs"
 	backend_bls12381 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-381/cs"
 	backend_bls24315 "github.com/AlexandreBelling/gnark/notinternal/backend/bls24-315/cs"
 	backend_bn254 "github.com/AlexandreBelling/gnark/notinternal/backend/bn254/cs"
 	backend_bw6633 "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-633/cs"
 	backend_bw6761 "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-761/cs"
-	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkfrontend/cs/r1cs"
 
 	witness_bls12377 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-377/witness"
 	witness_bls12381 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-381/witness"
@@ -41,7 +41,7 @@ import (
 	witness_bw6633 "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-633/witness"
 	witness_bw6761 "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-761/witness"
 
-	gnarkio "github.com/AlexandreBelling/gnarkio"
+	gnarkio "github.com/AlexandreBelling/gnark/io"
 
 	groth16_bls12377 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-377/groth16"
 	groth16_bls12381 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-381/groth16"

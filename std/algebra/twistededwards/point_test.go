@@ -28,9 +28,9 @@ import (
 	tbw6633 "github.com/consensys/gnark-crypto/ecc/bw6-633/twistededwards"
 	tbw6761 "github.com/consensys/gnark-crypto/ecc/bw6-761/twistededwards"
 
-	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarktest"
+	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/test"
 )
 
 type mustBeOnCurve struct {

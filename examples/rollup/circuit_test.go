@@ -19,10 +19,10 @@ package rollup
 import (
 	"testing"
 
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkstd/accumulator/merkle"
-	"github.com/AlexandreBelling/gnarkstd/hash/mimc"
-	"github.com/AlexandreBelling/gnarktest"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/std/accumulator/merkle"
+	"github.com/AlexandreBelling/gnark/std/hash/mimc"
+	"github.com/AlexandreBelling/gnark/test"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 

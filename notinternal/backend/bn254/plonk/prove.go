@@ -38,7 +38,7 @@ import (
 	"github.com/AlexandreBelling/gnark/notinternal/backend/bn254/cs"
 
 	"github.com/consensys/gnark-crypto/fiat-shamir"
-	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnark/backend"
 	"github.com/AlexandreBelling/gnark/notinternal/utils"
 )
 

@@ -19,7 +19,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/AlexandreBelling/gnarkbackend/hint"
+	"github.com/AlexandreBelling/gnark/backend/hint"
 )
 
 // ID represent a unique ID for a proving scheme

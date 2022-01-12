@@ -19,9 +19,9 @@ package cs_test
 import (
 	"bytes"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkfrontend/cs/r1cs"
+	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/frontend/cs/r1cs"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/circuits"
 	"reflect"
 	"testing"

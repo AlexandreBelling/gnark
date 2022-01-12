@@ -20,9 +20,9 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/AlexandreBelling/gnark/frontend"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"github.com/AlexandreBelling/gnark/notinternal/utils"
-	"github.com/AlexandreBelling/gnarkfrontend"
 )
 
 // AssertIsEqual fails if i1 != i2

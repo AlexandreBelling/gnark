@@ -18,9 +18,9 @@ limitations under the License.
 package groth16_bls24315
 
 import (
-	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkstd/algebra/fields_bls24315"
-	"github.com/AlexandreBelling/gnarkstd/algebra/sw_bls24315"
+	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/std/algebra/fields_bls24315"
+	"github.com/AlexandreBelling/gnark/std/algebra/sw_bls24315"
 )
 
 // Proof represents a groth16 proof in a r1cs

@@ -20,10 +20,10 @@ import (
 	"math/big"
 	"strings"
 
+	"github.com/AlexandreBelling/gnarkdebug"
+	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnarkinternal/utils"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/debug"
-	"github.com/consensys/gnark/internal/backend/compiled"
-	"github.com/consensys/gnark/internal/utils"
 )
 
 // ConstraintSystem contains the parts common to plonk and Groth16

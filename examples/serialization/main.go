@@ -5,12 +5,12 @@ import (
 
 	"github.com/fxamacker/cbor/v2"
 
+	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnarkbackend/groth16"
+	"github.com/AlexandreBelling/gnarkfrontend"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/backend"
-	"github.com/consensys/gnark/backend/groth16"
-	"github.com/consensys/gnark/frontend"
 
-	"github.com/consensys/gnark/examples/cubic"
+	"github.com/AlexandreBelling/gnarkexamples/cubic"
 )
 
 func main() {

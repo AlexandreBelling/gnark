@@ -20,10 +20,10 @@ import (
 	"math/big"
 	"testing"
 
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarktest"
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark-crypto/hash"
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/test"
 )
 
 type mimcCircuit struct {

@@ -20,11 +20,11 @@ import (
 	"math/big"
 	"testing"
 
+	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarktest"
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark-crypto/ecc/bw6-761/fr"
-	"github.com/consensys/gnark/backend"
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/test"
 
 	bls12377 "github.com/consensys/gnark-crypto/ecc/bls12-377"
 )

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/consensys/gnark/backend"
+	"github.com/AlexandreBelling/gnarkbackend"
 )
 
 var (

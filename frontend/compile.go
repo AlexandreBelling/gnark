@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnarkdebug"
+	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnarkinternal/parser"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/backend"
-	"github.com/consensys/gnark/debug"
-	"github.com/consensys/gnark/internal/backend/compiled"
-	"github.com/consensys/gnark/internal/parser"
 )
 
 var tVariable reflect.Type

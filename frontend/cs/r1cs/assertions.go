@@ -20,9 +20,9 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/internal/backend/compiled"
-	"github.com/consensys/gnark/internal/utils"
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnarkinternal/utils"
 )
 
 // AssertIsEqual adds an assertion in the constraint system (i1 == i2)

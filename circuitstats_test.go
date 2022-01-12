@@ -6,11 +6,11 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarkinternal/backend/circuits"
+	"github.com/AlexandreBelling/gnarktest"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/backend"
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/internal/backend/circuits"
-	"github.com/consensys/gnark/test"
 )
 
 const (

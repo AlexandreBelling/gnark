@@ -47,16 +47,16 @@ import (
 	"math/big"
 	"reflect"
 
+	"github.com/AlexandreBelling/gnarkfrontend"
+	witness_bls12377 "github.com/AlexandreBelling/gnarkinternal/backend/bls12-377/witness"
+	witness_bls12381 "github.com/AlexandreBelling/gnarkinternal/backend/bls12-381/witness"
+	witness_bls24315 "github.com/AlexandreBelling/gnarkinternal/backend/bls24-315/witness"
+	witness_bn254 "github.com/AlexandreBelling/gnarkinternal/backend/bn254/witness"
+	witness_bw6633 "github.com/AlexandreBelling/gnarkinternal/backend/bw6-633/witness"
+	witness_bw6761 "github.com/AlexandreBelling/gnarkinternal/backend/bw6-761/witness"
+	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnarkinternal/parser"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/frontend"
-	witness_bls12377 "github.com/consensys/gnark/internal/backend/bls12-377/witness"
-	witness_bls12381 "github.com/consensys/gnark/internal/backend/bls12-381/witness"
-	witness_bls24315 "github.com/consensys/gnark/internal/backend/bls24-315/witness"
-	witness_bn254 "github.com/consensys/gnark/internal/backend/bn254/witness"
-	witness_bw6633 "github.com/consensys/gnark/internal/backend/bw6-633/witness"
-	witness_bw6761 "github.com/consensys/gnark/internal/backend/bw6-761/witness"
-	"github.com/consensys/gnark/internal/backend/compiled"
-	"github.com/consensys/gnark/internal/parser"
 )
 
 // WriteFullTo encodes the witness to a slice of []fr.Element and write the []byte on provided writer

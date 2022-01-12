@@ -17,15 +17,15 @@ limitations under the License.
 package plonk
 
 import (
+	"github.com/AlexandreBelling/gnarkfrontend"
+	bls12377r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bls12-377/cs"
+	bls12381r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bls12-381/cs"
+	bls24315r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bls24-315/cs"
+	bn254r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bn254/cs"
+	bw6633r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bw6-633/cs"
+	bw6761r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bw6-761/cs"
+	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/frontend"
-	bls12377r1cs "github.com/consensys/gnark/internal/backend/bls12-377/cs"
-	bls12381r1cs "github.com/consensys/gnark/internal/backend/bls12-381/cs"
-	bls24315r1cs "github.com/consensys/gnark/internal/backend/bls24-315/cs"
-	bn254r1cs "github.com/consensys/gnark/internal/backend/bn254/cs"
-	bw6633r1cs "github.com/consensys/gnark/internal/backend/bw6-633/cs"
-	bw6761r1cs "github.com/consensys/gnark/internal/backend/bw6-761/cs"
-	"github.com/consensys/gnark/internal/backend/compiled"
 )
 
 func (cs *sparseR1CS) Compile() (frontend.CompiledConstraintSystem, error) {

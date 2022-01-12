@@ -19,8 +19,8 @@ package sw_bls12377
 import (
 	"math/big"
 
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/std/algebra/fields_bls12377"
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarkstd/algebra/fields_bls12377"
 )
 
 // PairingContext contains useful info about the pairing

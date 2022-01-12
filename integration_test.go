@@ -21,9 +21,9 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/consensys/gnark/backend"
-	"github.com/consensys/gnark/internal/backend/circuits"
-	"github.com/consensys/gnark/test"
+	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnarkinternal/backend/circuits"
+	"github.com/AlexandreBelling/gnarktest"
 )
 
 func TestIntegrationAPI(t *testing.T) {

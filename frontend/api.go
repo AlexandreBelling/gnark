@@ -19,9 +19,9 @@ package frontend
 import (
 	"math/big"
 
+	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnarkbackend/hint"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/backend"
-	"github.com/consensys/gnark/backend/hint"
 )
 
 // API represents the available functions to circuit developers

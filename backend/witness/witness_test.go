@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/AlexandreBelling/gnarkfrontend"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/frontend"
 	"github.com/stretchr/testify/require"
 )
 

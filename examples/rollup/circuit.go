@@ -17,11 +17,11 @@ limitations under the License.
 package rollup
 
 import (
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/std/accumulator/merkle"
-	"github.com/consensys/gnark/std/algebra/twistededwards"
-	"github.com/consensys/gnark/std/hash/mimc"
-	"github.com/consensys/gnark/std/signature/eddsa"
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarkstd/accumulator/merkle"
+	"github.com/AlexandreBelling/gnarkstd/algebra/twistededwards"
+	"github.com/AlexandreBelling/gnarkstd/hash/mimc"
+	"github.com/AlexandreBelling/gnarkstd/signature/eddsa"
 )
 
 const (

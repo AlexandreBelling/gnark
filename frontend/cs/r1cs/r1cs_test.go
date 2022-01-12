@@ -20,8 +20,8 @@ import (
 	"sort"
 	"testing"
 
+	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/internal/backend/compiled"
 )
 
 func TestQuickSort(t *testing.T) {

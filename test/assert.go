@@ -24,14 +24,14 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnarkbackend/groth16"
+	"github.com/AlexandreBelling/gnarkbackend/plonk"
+	"github.com/AlexandreBelling/gnarkbackend/witness"
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnarkinternal/utils"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/backend"
-	"github.com/consensys/gnark/backend/groth16"
-	"github.com/consensys/gnark/backend/plonk"
-	"github.com/consensys/gnark/backend/witness"
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/internal/backend/compiled"
-	"github.com/consensys/gnark/internal/utils"
 	"github.com/stretchr/testify/require"
 )
 

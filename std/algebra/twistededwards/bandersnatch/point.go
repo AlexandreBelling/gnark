@@ -19,7 +19,7 @@ package bandersnatch
 import (
 	"math/big"
 
-	"github.com/consensys/gnark/frontend"
+	"github.com/AlexandreBelling/gnarkfrontend"
 )
 
 // Point point on a twisted Edwards curve in a Snark cs

@@ -46,8 +46,8 @@ limitations under the License.
 package merkle
 
 import (
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/std/hash/mimc"
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarkstd/hash/mimc"
 )
 
 // leafSum returns the hash created from data inserted to form a leaf.

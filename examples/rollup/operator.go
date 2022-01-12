@@ -21,9 +21,9 @@ import (
 	"hash"
 	"math/big"
 
+	"github.com/AlexandreBelling/gnarkstd/accumulator/merkle"
 	"github.com/consensys/gnark-crypto/accumulator/merkletree"
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr/mimc"
-	"github.com/consensys/gnark/std/accumulator/merkle"
 )
 
 var hFunc = mimc.NewMiMC("seed")

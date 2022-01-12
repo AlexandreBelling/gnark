@@ -18,9 +18,9 @@ limitations under the License.
 package groth16_bls12377
 
 import (
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/std/algebra/fields_bls12377"
-	"github.com/consensys/gnark/std/algebra/sw_bls12377"
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarkstd/algebra/fields_bls12377"
+	"github.com/AlexandreBelling/gnarkstd/algebra/sw_bls12377"
 )
 
 // Proof represents a groth16 proof in a r1cs

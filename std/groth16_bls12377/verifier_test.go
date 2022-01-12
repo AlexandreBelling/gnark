@@ -19,17 +19,17 @@ package groth16_bls12377
 import (
 	"testing"
 
+	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnarkfrontend"
+	backend_bls12377 "github.com/AlexandreBelling/gnarkinternal/backend/bls12-377/cs"
+	groth16_bls12377 "github.com/AlexandreBelling/gnarkinternal/backend/bls12-377/groth16"
+	"github.com/AlexandreBelling/gnarkinternal/backend/bls12-377/witness"
+	"github.com/AlexandreBelling/gnarkstd/algebra/fields_bls12377"
+	"github.com/AlexandreBelling/gnarkstd/algebra/sw_bls12377"
+	"github.com/AlexandreBelling/gnarkstd/hash/mimc"
+	"github.com/AlexandreBelling/gnarktest"
 	"github.com/consensys/gnark-crypto/ecc"
 	bls12377 "github.com/consensys/gnark-crypto/ecc/bls12-377"
-	"github.com/consensys/gnark/backend"
-	"github.com/consensys/gnark/frontend"
-	backend_bls12377 "github.com/consensys/gnark/internal/backend/bls12-377/cs"
-	groth16_bls12377 "github.com/consensys/gnark/internal/backend/bls12-377/groth16"
-	"github.com/consensys/gnark/internal/backend/bls12-377/witness"
-	"github.com/consensys/gnark/std/algebra/fields_bls12377"
-	"github.com/consensys/gnark/std/algebra/sw_bls12377"
-	"github.com/consensys/gnark/std/hash/mimc"
-	"github.com/consensys/gnark/test"
 )
 
 //--------------------------------------------------------------------

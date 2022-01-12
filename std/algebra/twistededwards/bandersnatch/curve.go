@@ -20,9 +20,9 @@ import (
 	"errors"
 	"math/big"
 
+	"github.com/AlexandreBelling/gnarkinternal/utils"
 	"github.com/consensys/gnark-crypto/ecc"
 	bandersnatch "github.com/consensys/gnark-crypto/ecc/bls12-381/twistededwards/bandersnatch"
-	"github.com/consensys/gnark/internal/utils"
 )
 
 // EdCurve stores the info on the chosen edwards curve

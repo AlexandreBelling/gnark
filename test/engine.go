@@ -24,13 +24,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/consensys/gnark/debug"
+	"github.com/AlexandreBelling/gnarkdebug"
 
+	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnarkbackend/hint"
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarkinternal/utils"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/backend"
-	"github.com/consensys/gnark/backend/hint"
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/internal/utils"
 )
 
 // engine implements frontend.API

@@ -25,12 +25,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/consensys/gnark/backend"
-	"github.com/consensys/gnark/backend/hint"
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/internal/backend/compiled"
-	"github.com/consensys/gnark/internal/parser"
-	"github.com/consensys/gnark/internal/utils"
+	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnarkbackend/hint"
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnarkinternal/parser"
+	"github.com/AlexandreBelling/gnarkinternal/utils"
 )
 
 // Add returns res = i1+i2+...in

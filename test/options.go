@@ -17,9 +17,9 @@ limitations under the License.
 package test
 
 import (
+	"github.com/AlexandreBelling/gnarkbackend"
+	"github.com/AlexandreBelling/gnarkfrontend"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/backend"
-	"github.com/consensys/gnark/frontend"
 )
 
 // TestingOption enables calls to assert.ProverSucceeded and assert.ProverFailed to run with various features

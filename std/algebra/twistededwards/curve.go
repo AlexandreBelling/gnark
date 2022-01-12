@@ -20,6 +20,7 @@ import (
 	"errors"
 	"math/big"
 
+	"github.com/AlexandreBelling/gnarkinternal/utils"
 	"github.com/consensys/gnark-crypto/ecc"
 	edbls12377 "github.com/consensys/gnark-crypto/ecc/bls12-377/twistededwards"
 	edbls12381 "github.com/consensys/gnark-crypto/ecc/bls12-381/twistededwards"
@@ -27,7 +28,6 @@ import (
 	edbn254 "github.com/consensys/gnark-crypto/ecc/bn254/twistededwards"
 	edbw6633 "github.com/consensys/gnark-crypto/ecc/bw6-633/twistededwards"
 	edbw6761 "github.com/consensys/gnark-crypto/ecc/bw6-761/twistededwards"
-	"github.com/consensys/gnark/internal/utils"
 )
 
 // EdCurve stores the info on the chosen edwards curve

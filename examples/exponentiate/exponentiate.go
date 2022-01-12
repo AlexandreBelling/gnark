@@ -15,7 +15,7 @@
 package exponentiate
 
 import (
-	"github.com/consensys/gnark/frontend"
+	"github.com/AlexandreBelling/gnarkfrontend"
 )
 
 // Circuit y == x**e

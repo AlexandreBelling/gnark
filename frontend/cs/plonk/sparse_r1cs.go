@@ -24,10 +24,10 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/AlexandreBelling/gnarkfrontend"
+	"github.com/AlexandreBelling/gnarkfrontend/cs"
+	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/frontend/cs"
-	"github.com/consensys/gnark/internal/backend/compiled"
 )
 
 func NewBuilder(curve ecc.ID) (frontend.Builder, error) {

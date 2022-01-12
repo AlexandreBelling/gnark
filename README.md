@@ -125,7 +125,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our [code of condu
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/consensys/gnark/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/AlexandreBelling/gnarktags).
 
 
 ## License
@@ -133,7 +133,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 This project is licensed under the Apache 2 License - see the [LICENSE](LICENSE) file for details
 
 
-[`gnark` Issues]: https://github.com/consensys/gnark/issues
+[`gnark` Issues]: https://github.com/AlexandreBelling/gnarkissues
 [`gnark` User Documentation]: https://docs.gnark.consensys.net/en/latest/
-[GitHub discussions]: https://github.com/ConsenSys/gnark/discussions
+[GitHub discussions]: https://github.com/AlexandreBelling/gnarkdiscussions
 [Proving schemes and curves]: https://docs.gnark.consensys.net/en/latest/Concepts/schemes_curves/

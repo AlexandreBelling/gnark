@@ -21,15 +21,15 @@ import (
 
 	curve "github.com/consensys/gnark-crypto/ecc/bls24-315"
 
-	"github.com/AlexandreBelling/gnarkinternal/backend/bls24-315/cs"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/bls24-315/cs"
 
 	"github.com/consensys/gnark-crypto/ecc/bls24-315/fr/fft"
 
 	"fmt"
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/AlexandreBelling/gnarkbackend"
-	bls24_315witness "github.com/AlexandreBelling/gnarkinternal/backend/bls24-315/witness"
-	"github.com/AlexandreBelling/gnarkinternal/utils"
+	bls24_315witness "github.com/AlexandreBelling/gnark/notinternal/backend/bls24-315/witness"
+	"github.com/AlexandreBelling/gnark/notinternal/utils"
 	"math/big"
 	"runtime"
 )

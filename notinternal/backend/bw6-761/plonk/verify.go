@@ -27,7 +27,7 @@ import (
 
 	curve "github.com/consensys/gnark-crypto/ecc/bw6-761"
 
-	bw6_761witness "github.com/AlexandreBelling/gnarkinternal/backend/bw6-761/witness"
+	bw6_761witness "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-761/witness"
 
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark-crypto/fiat-shamir"

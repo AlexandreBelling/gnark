@@ -47,15 +47,15 @@ import (
 	"math/big"
 	"reflect"
 
+	witness_bls12377 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-377/witness"
+	witness_bls12381 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-381/witness"
+	witness_bls24315 "github.com/AlexandreBelling/gnark/notinternal/backend/bls24-315/witness"
+	witness_bn254 "github.com/AlexandreBelling/gnark/notinternal/backend/bn254/witness"
+	witness_bw6633 "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-633/witness"
+	witness_bw6761 "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-761/witness"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnark/notinternal/parser"
 	"github.com/AlexandreBelling/gnarkfrontend"
-	witness_bls12377 "github.com/AlexandreBelling/gnarkinternal/backend/bls12-377/witness"
-	witness_bls12381 "github.com/AlexandreBelling/gnarkinternal/backend/bls12-381/witness"
-	witness_bls24315 "github.com/AlexandreBelling/gnarkinternal/backend/bls24-315/witness"
-	witness_bn254 "github.com/AlexandreBelling/gnarkinternal/backend/bn254/witness"
-	witness_bw6633 "github.com/AlexandreBelling/gnarkinternal/backend/bw6-633/witness"
-	witness_bw6761 "github.com/AlexandreBelling/gnarkinternal/backend/bw6-761/witness"
-	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
-	"github.com/AlexandreBelling/gnarkinternal/parser"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 

@@ -21,15 +21,15 @@ import (
 
 	curve "github.com/consensys/gnark-crypto/ecc/bn254"
 
-	"github.com/AlexandreBelling/gnarkinternal/backend/bn254/cs"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/bn254/cs"
 
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr/fft"
 
 	"fmt"
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/AlexandreBelling/gnarkbackend"
-	bn254witness "github.com/AlexandreBelling/gnarkinternal/backend/bn254/witness"
-	"github.com/AlexandreBelling/gnarkinternal/utils"
+	bn254witness "github.com/AlexandreBelling/gnark/notinternal/backend/bn254/witness"
+	"github.com/AlexandreBelling/gnark/notinternal/utils"
 	"math/big"
 	"runtime"
 )

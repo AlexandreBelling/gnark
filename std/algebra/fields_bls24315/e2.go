@@ -17,8 +17,8 @@ limitations under the License.
 package fields_bls24315
 
 import (
+	"github.com/AlexandreBelling/gnark/notinternal/utils"
 	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkinternal/utils"
 	bls24315 "github.com/consensys/gnark-crypto/ecc/bls24-315"
 	"github.com/consensys/gnark-crypto/ecc/bw6-633/fr"
 )

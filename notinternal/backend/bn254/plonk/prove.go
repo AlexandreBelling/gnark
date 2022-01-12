@@ -33,13 +33,13 @@ import (
 
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr/fft"
 
-	bn254witness "github.com/AlexandreBelling/gnarkinternal/backend/bn254/witness"
+	bn254witness "github.com/AlexandreBelling/gnark/notinternal/backend/bn254/witness"
 
-	"github.com/AlexandreBelling/gnarkinternal/backend/bn254/cs"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/bn254/cs"
 
 	"github.com/consensys/gnark-crypto/fiat-shamir"
 	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkinternal/utils"
+	"github.com/AlexandreBelling/gnark/notinternal/utils"
 )
 
 type Proof struct {

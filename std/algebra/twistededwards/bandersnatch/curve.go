@@ -20,7 +20,7 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/AlexandreBelling/gnarkinternal/utils"
+	"github.com/AlexandreBelling/gnark/notinternal/utils"
 	"github.com/consensys/gnark-crypto/ecc"
 	bandersnatch "github.com/consensys/gnark-crypto/ecc/bls12-381/twistededwards/bandersnatch"
 )

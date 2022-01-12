@@ -27,8 +27,8 @@ import (
 	"text/template"
 
 	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
-	"github.com/AlexandreBelling/gnarkinternal/backend/ioutils"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/ioutils"
 
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr"
 )

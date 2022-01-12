@@ -7,7 +7,7 @@
 {{- end }}
 
 {{- define "import_backend_cs" }}
-	"github.com/AlexandreBelling/gnarkinternal/backend/{{toLower .Curve}}/cs"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/{{toLower .Curve}}/cs"
 {{- end }}
 
 {{- define "import_fft" }}
@@ -15,15 +15,15 @@
 {{- end }}
 
 {{- define "import_witness" }}
-	{{toLower .CurveID}}witness "github.com/AlexandreBelling/gnarkinternal/backend/{{toLower .Curve}}/witness"
+	{{toLower .CurveID}}witness "github.com/AlexandreBelling/gnark/notinternal/backend/{{toLower .Curve}}/witness"
 {{- end }}
 
 {{- define "import_groth16" }}
-	{{toLower .CurveID}}groth16 "github.com/AlexandreBelling/gnarkinternal/backend/{{toLower .Curve}}/groth16"
+	{{toLower .CurveID}}groth16 "github.com/AlexandreBelling/gnark/notinternal/backend/{{toLower .Curve}}/groth16"
 {{- end }}
 
 {{- define "import_plonk" }}
-	{{toLower .CurveID}}plonk "github.com/AlexandreBelling/gnarkinternal/backend/{{toLower .Curve}}/plonk"
+	{{toLower .CurveID}}plonk "github.com/AlexandreBelling/gnark/notinternal/backend/{{toLower .Curve}}/plonk"
 {{- end }}
 
 {{- define "import_polynomial" }}

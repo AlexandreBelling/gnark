@@ -23,7 +23,7 @@ import (
 
 	"errors"
 	"fmt"
-	bn254witness "github.com/AlexandreBelling/gnarkinternal/backend/bn254/witness"
+	bn254witness "github.com/AlexandreBelling/gnark/notinternal/backend/bn254/witness"
 	"io"
 
 	"text/template"

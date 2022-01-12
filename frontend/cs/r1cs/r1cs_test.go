@@ -20,7 +20,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 

@@ -24,13 +24,13 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnark/notinternal/utils"
 	"github.com/AlexandreBelling/gnarkbackend"
 	"github.com/AlexandreBelling/gnarkbackend/groth16"
 	"github.com/AlexandreBelling/gnarkbackend/plonk"
 	"github.com/AlexandreBelling/gnarkbackend/witness"
 	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
-	"github.com/AlexandreBelling/gnarkinternal/utils"
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/stretchr/testify/require"
 )

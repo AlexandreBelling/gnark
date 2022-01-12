@@ -18,9 +18,9 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/AlexandreBelling/gnark/notinternal/backend/bn254/cs"
 	"github.com/AlexandreBelling/gnarkbackend"
 	"github.com/AlexandreBelling/gnarkbackend/plonk"
-	"github.com/AlexandreBelling/gnarkinternal/backend/bn254/cs"
 	"github.com/AlexandreBelling/gnarktest"
 	"github.com/consensys/gnark-crypto/ecc"
 

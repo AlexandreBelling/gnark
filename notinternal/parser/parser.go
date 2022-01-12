@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 )
 
 // Tag is a (optional) struct tag one can add to Variable

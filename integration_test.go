@@ -21,8 +21,8 @@ import (
 	"sort"
 	"testing"
 
+	"github.com/AlexandreBelling/gnark/notinternal/backend/circuits"
 	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkinternal/backend/circuits"
 	"github.com/AlexandreBelling/gnarktest"
 )
 

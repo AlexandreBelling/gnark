@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnark/notinternal/parser"
 	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
-	"github.com/AlexandreBelling/gnarkinternal/parser"
 )
 
 // ShallowClone clones given circuit

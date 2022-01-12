@@ -21,11 +21,11 @@ import (
 
 	curve "github.com/consensys/gnark-crypto/ecc/bw6-761"
 
-	"github.com/AlexandreBelling/gnarkinternal/backend/bw6-761/cs"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/bw6-761/cs"
 
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark-crypto/ecc/bw6-761/fr/fft"
-	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"math/big"
 	"math/bits"
 )

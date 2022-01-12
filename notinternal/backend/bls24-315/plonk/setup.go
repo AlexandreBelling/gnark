@@ -22,7 +22,7 @@ import (
 	"github.com/consensys/gnark-crypto/ecc/bls24-315/fr/fft"
 	"github.com/consensys/gnark-crypto/ecc/bls24-315/fr/kzg"
 	"github.com/consensys/gnark-crypto/ecc/bls24-315/fr/polynomial"
-	"github.com/AlexandreBelling/gnarkinternal/backend/bls24-315/cs"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/bls24-315/cs"
 
 	kzgg "github.com/consensys/gnark-crypto/kzg"
 )

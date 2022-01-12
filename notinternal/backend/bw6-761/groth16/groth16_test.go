@@ -21,12 +21,12 @@ import (
 
 	curve "github.com/consensys/gnark-crypto/ecc/bw6-761"
 
-	"github.com/AlexandreBelling/gnarkinternal/backend/bw6-761/cs"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/bw6-761/cs"
 
-	bw6_761witness "github.com/AlexandreBelling/gnarkinternal/backend/bw6-761/witness"
+	bw6_761witness "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-761/witness"
 
 	"bytes"
-	bw6_761groth16 "github.com/AlexandreBelling/gnarkinternal/backend/bw6-761/groth16"
+	bw6_761groth16 "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-761/groth16"
 	"testing"
 
 	"github.com/AlexandreBelling/gnarkbackend"

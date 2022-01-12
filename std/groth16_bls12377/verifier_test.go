@@ -19,11 +19,11 @@ package groth16_bls12377
 import (
 	"testing"
 
+	backend_bls12377 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-377/cs"
+	groth16_bls12377 "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-377/groth16"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/bls12-377/witness"
 	"github.com/AlexandreBelling/gnarkbackend"
 	"github.com/AlexandreBelling/gnarkfrontend"
-	backend_bls12377 "github.com/AlexandreBelling/gnarkinternal/backend/bls12-377/cs"
-	groth16_bls12377 "github.com/AlexandreBelling/gnarkinternal/backend/bls12-377/groth16"
-	"github.com/AlexandreBelling/gnarkinternal/backend/bls12-377/witness"
 	"github.com/AlexandreBelling/gnarkstd/algebra/fields_bls12377"
 	"github.com/AlexandreBelling/gnarkstd/algebra/sw_bls12377"
 	"github.com/AlexandreBelling/gnarkstd/hash/mimc"

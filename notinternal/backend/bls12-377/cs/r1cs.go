@@ -26,8 +26,8 @@ import (
 	"github.com/fxamacker/cbor/v2"
 
 	"github.com/AlexandreBelling/gnarkbackend"
-	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
-	"github.com/AlexandreBelling/gnarkinternal/backend/ioutils"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/ioutils"
 
 	"github.com/consensys/gnark-crypto/ecc"
 	"text/template"

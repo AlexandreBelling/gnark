@@ -26,10 +26,10 @@ import (
 
 	"github.com/AlexandreBelling/gnarkdebug"
 
+	"github.com/AlexandreBelling/gnark/notinternal/utils"
 	"github.com/AlexandreBelling/gnarkbackend"
 	"github.com/AlexandreBelling/gnarkbackend/hint"
 	"github.com/AlexandreBelling/gnarkfrontend"
-	"github.com/AlexandreBelling/gnarkinternal/utils"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 

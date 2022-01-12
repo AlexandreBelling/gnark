@@ -17,14 +17,14 @@ limitations under the License.
 package r1cs
 
 import (
+	bls12377r1cs "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-377/cs"
+	bls12381r1cs "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-381/cs"
+	bls24315r1cs "github.com/AlexandreBelling/gnark/notinternal/backend/bls24-315/cs"
+	bn254r1cs "github.com/AlexandreBelling/gnark/notinternal/backend/bn254/cs"
+	bw6633r1cs "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-633/cs"
+	bw6761r1cs "github.com/AlexandreBelling/gnark/notinternal/backend/bw6-761/cs"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"github.com/AlexandreBelling/gnarkfrontend"
-	bls12377r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bls12-377/cs"
-	bls12381r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bls12-381/cs"
-	bls24315r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bls24-315/cs"
-	bn254r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bn254/cs"
-	bw6633r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bw6-633/cs"
-	bw6761r1cs "github.com/AlexandreBelling/gnarkinternal/backend/bw6-761/cs"
-	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 

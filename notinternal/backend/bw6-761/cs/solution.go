@@ -24,8 +24,8 @@ import (
 	"sync"
 
 	"github.com/AlexandreBelling/gnarkbackend/hint"
-	"github.com/AlexandreBelling/gnarkinternal/backend/compiled"
-	"github.com/AlexandreBelling/gnarkinternal/utils"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
+	"github.com/AlexandreBelling/gnark/notinternal/utils"
 
 	"github.com/consensys/gnark-crypto/ecc/bw6-761/fr"
 

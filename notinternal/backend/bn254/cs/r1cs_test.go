@@ -22,11 +22,11 @@ import (
 	"github.com/AlexandreBelling/gnarkbackend"
 	"github.com/AlexandreBelling/gnarkfrontend"
 	"github.com/AlexandreBelling/gnarkfrontend/cs/r1cs"
-	"github.com/AlexandreBelling/gnarkinternal/backend/circuits"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/circuits"
 	"reflect"
 	"testing"
 
-	"github.com/AlexandreBelling/gnarkinternal/backend/bn254/cs"
+	"github.com/AlexandreBelling/gnark/notinternal/backend/bn254/cs"
 )
 
 func TestSerialization(t *testing.T) {

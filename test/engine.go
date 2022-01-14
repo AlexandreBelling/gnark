@@ -401,3 +401,12 @@ func (e *engine) Curve() ecc.ID {
 func (e *engine) Backend() backend.ID {
 	return e.backendID
 }
+
+func (e *engine) EnforceWire(v frontend.Variable) frontend.Variable {
+	return v
+}
+
+// WireId will return the same value contained in a single wire
+func (e *engine) WireId(v frontend.Variable) (int, bool) {
+	return 0, false
+}

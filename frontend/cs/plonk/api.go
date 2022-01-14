@@ -668,3 +668,13 @@ func (system *sparseR1CS) splitProd(acc compiled.Term, r []compiled.Term) compil
 	system.addPlonkConstraint(acc, r[0], o, compiled.CoeffIdZero, compiled.CoeffIdZero, cl, cr, compiled.CoeffIdMinusOne, compiled.CoeffIdZero)
 	return system.splitProd(o, r[1:])
 }
+
+// enforce that a wire be returned a single value
+func (system *sparseR1CS) EnforceWire(v frontend.Variable) frontend.Variable {
+	panic("No implementation")
+}
+
+// WireId will return the same value contained in a single wire
+func (system *sparseR1CS) WireId(v frontend.Variable) (int, bool) {
+	panic("No implementation")
+}

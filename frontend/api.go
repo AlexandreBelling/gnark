@@ -143,4 +143,10 @@ type API interface {
 
 	// Backend returns the backend.ID injected by the compiler
 	Backend() backend.ID
+
+	// EnforceWire will return the same value contained in a single wire
+	EnforceWire(v Variable) Variable
+
+	// WireId will return the same value contained in a single wire
+	WireId(v Variable) (int, bool)
 }

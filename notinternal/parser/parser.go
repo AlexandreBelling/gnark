@@ -101,10 +101,10 @@ func Visit(input interface{}, baseName string, parentVisibility compiled.Visibil
 
 				// Handle the case where "f" is already an interface
 				// object. Then, we need to dereference.
-				// if f.Kind() == reflect.Interface {
-				// TODO @gbotrel this is removed, from @alex, discuss impact
-				// value = f.Interface()
-				// }
+				if f.Type() != target && f.Kind() == reflect.Interface {
+					// TODO @gbotrel this is removed, from @alex, discuss impact
+					value = f.Interface()
+				}
 
 				if err := Visit(value, fullName, visibility, handler, target); err != nil {
 					return err
@@ -143,6 +143,7 @@ func Visit(input interface{}, baseName string, parentVisibility compiled.Visibil
 	case reflect.Map:
 		fmt.Println("warning: map values are not addressable, ignoring")
 	case reflect.Interface:
+
 		if tValue.Type() == target {
 			return handler(parentVisibility, baseName, tValue)
 		}

@@ -765,3 +765,101 @@ func (system *r1CS) negateLinExp(l []compiled.Term) []compiled.Term {
 	}
 	return res
 }
+
+// enforce that a wire be returned a single value
+func (system *r1CS) EnforceWire(v frontend.Variable) frontend.Variable {
+
+	// If the variable is a constant, do nothing
+	if system.IsConstant(v) {
+		return v
+	}
+
+	createVar := func(v1 frontend.Variable) frontend.Variable {
+		res := system.newInternalVariable()
+		system.Constraints = append(system.Constraints, newR1C(v1, system.one(), res))
+		return res
+	}
+
+	var linExp []compiled.Term
+
+	switch u := v.(type) {
+	case compiled.Variable:
+		linExp = u.LinExp
+	case compiled.LinearExpression:
+		linExp = u
+	default:
+		// Probably should just return the value
+		return v
+	}
+
+	// Returns if the coefficient
+	coeffOnes := 0
+	for _, t := range linExp {
+		switch t.CoeffID() {
+		case compiled.CoeffIdZero:
+			// Ignore the term
+			// We expect that there cannot be only zero term
+		case compiled.CoeffIdOne:
+			// There should be exactly one coeffOne term
+			if coeffOnes > 0 {
+				return createVar(v)
+			}
+			coeffOnes++
+		default:
+			return createVar(v)
+		}
+	}
+
+	// The wire is already a "pure" wire, we can return it as is.
+	return v
+}
+
+// WireId will return the same value contained in a single wire
+// Will panic if called over a non pure wire
+func (system *r1CS) WireId(v frontend.Variable) (int, bool) {
+
+	// If the variable is constant, it returns false
+	if system.IsConstant(v) {
+		return 0, true
+	}
+
+	var linExp []compiled.Term
+
+	switch u := v.(type) {
+	case compiled.Variable:
+		linExp = u.LinExp
+	case compiled.LinearExpression:
+		linExp = u
+	default:
+		// Probably should just return the value
+		panic("Should never happen")
+	}
+
+	// Returns if the coefficient
+	var wireID *int
+
+	for _, t := range linExp {
+		switch t.CoeffID() {
+		case compiled.CoeffIdZero:
+			// Ignore the term
+			// We expect that there cannot be only zero term
+		case compiled.CoeffIdOne:
+			// There should be exactly one coeffOne term
+			if wireID != nil {
+				panic(fmt.Sprintf("Not a pure wireID, more than two coeff one %x \n", linExp))
+			}
+			_w := t.WireID()
+			wireID = &_w
+		default:
+			panic(fmt.Sprintf("Not a pure wireID, bad coeff %x \n", linExp))
+		}
+	}
+
+	// Only zeroes, skip
+	if wireID == nil {
+		return 0, true
+	}
+
+	return *wireID, false
+
+}

@@ -801,7 +801,9 @@ func (system *r1CS) EnforceWire(v frontend.Variable) frontend.Variable {
 			// We expect that there cannot be only zero term
 		case compiled.CoeffIdOne:
 			// There should be exactly one coeffOne term
-			if coeffOnes > 0 {
+			// Also, if at least one of the coeff has non-internal visibility
+			// We duplicate it. (it's to avoid computing complex offset calculation)
+			if coeffOnes > 0 || t.VariableVisibility() != compiled.Internal {
 				return createVar(v)
 			}
 			coeffOnes++
@@ -845,9 +847,12 @@ func (system *r1CS) WireId(v frontend.Variable) (int, bool) {
 			// We expect that there cannot be only zero term
 		case compiled.CoeffIdOne:
 			// There should be exactly one coeffOne term
+			// For sanitization, we prefer looping through all variables and panic if this
+			// is not respected rather than directly breaking at the first one
 			if wireID != nil {
 				panic(fmt.Sprintf("Not a pure wireID, more than two coeff one %x \n", linExp))
 			}
+
 			_w := t.WireID()
 			wireID = &_w
 		default:

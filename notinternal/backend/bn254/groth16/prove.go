@@ -17,6 +17,8 @@
 package groth16
 
 import (
+	"time"
+
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr"
 
 	curve "github.com/consensys/gnark-crypto/ecc/bn254"
@@ -26,12 +28,13 @@ import (
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr/fft"
 
 	"fmt"
-	"github.com/consensys/gnark-crypto/ecc"
+	"math/big"
+	"runtime"
+
 	"github.com/AlexandreBelling/gnark/backend"
 	bn254witness "github.com/AlexandreBelling/gnark/notinternal/backend/bn254/witness"
 	"github.com/AlexandreBelling/gnark/notinternal/utils"
-	"math/big"
-	"runtime"
+	"github.com/consensys/gnark-crypto/ecc"
 )
 
 // Proof represents a Groth16 proof that was encoded with a ProvingKey and can be verified
@@ -288,6 +291,8 @@ func ComputeProof(r1cs *cs.R1CS, pk *ProvingKey, a, b, c, wireValues []fr.Elemen
 // Prove generates the proof of knoweldge of a r1cs with full witness (secret + public part).
 func Prove(r1cs *cs.R1CS, pk *ProvingKey, witness bn254witness.Witness, opt backend.ProverOption) (*Proof, error) {
 
+	t0 := time.Now()
+
 	if len(witness) != int(r1cs.NbPublicVariables-1+r1cs.NbSecretVariables) {
 		return nil, fmt.Errorf("invalid witness size, got %d, expected %d = %d (public - ONE_WIRE) + %d (secret)", len(witness), int(r1cs.NbPublicVariables-1+r1cs.NbSecretVariables), r1cs.NbPublicVariables, r1cs.NbSecretVariables)
 	}
@@ -312,12 +317,16 @@ func Prove(r1cs *cs.R1CS, pk *ProvingKey, witness bn254witness.Witness, opt back
 		}
 	}
 
+	
 	// set the wire values in regular form
 	utils.Parallelize(len(wireValues), func(start, end int) {
 		for i := start; i < end; i++ {
 			wireValues[i].FromMont()
 		}
 	})
+
+	fmt.Printf("Total time of the solver %v (ms) \n", time.Since(t0).Milliseconds())
+	t0 = time.Now()
 
 	// H (witness reduction / FFT part)
 	var h []fr.Element
@@ -495,6 +504,8 @@ func Prove(r1cs *cs.R1CS, pk *ProvingKey, witness bn254witness.Witness, opt back
 	if err := <-chKrsDone; err != nil {
 		return nil, err
 	}
+
+	fmt.Printf("Time of the proof computation = %v (ms) \n", time.Since(t0).Milliseconds())
 
 	return proof, nil
 }

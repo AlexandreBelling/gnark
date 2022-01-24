@@ -17,8 +17,6 @@
 package groth16
 
 import (
-	"time"
-
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr"
 
 	curve "github.com/consensys/gnark-crypto/ecc/bn254"

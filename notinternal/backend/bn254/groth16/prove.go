@@ -291,12 +291,6 @@ func ComputeProof(r1cs *cs.R1CS, pk *ProvingKey, a, b, c, wireValues []fr.Elemen
 // Prove generates the proof of knoweldge of a r1cs with full witness (secret + public part).
 func Prove(r1cs *cs.R1CS, pk *ProvingKey, witness bn254witness.Witness, opt backend.ProverOption) (*Proof, error) {
 
-	t0 := time.Now()
-
-	if len(witness) != int(r1cs.NbPublicVariables-1+r1cs.NbSecretVariables) {
-		return nil, fmt.Errorf("invalid witness size, got %d, expected %d = %d (public - ONE_WIRE) + %d (secret)", len(witness), int(r1cs.NbPublicVariables-1+r1cs.NbSecretVariables), r1cs.NbPublicVariables, r1cs.NbSecretVariables)
-	}
-
 	// solve the R1CS and compute the a, b, c vectors
 	a := make([]fr.Element, len(r1cs.Constraints), pk.Domain.Cardinality)
 	b := make([]fr.Element, len(r1cs.Constraints), pk.Domain.Cardinality)
@@ -324,9 +318,6 @@ func Prove(r1cs *cs.R1CS, pk *ProvingKey, witness bn254witness.Witness, opt back
 			wireValues[i].FromMont()
 		}
 	})
-
-	fmt.Printf("Total time of the solver %v (ms) \n", time.Since(t0).Milliseconds())
-	t0 = time.Now()
 
 	// H (witness reduction / FFT part)
 	var h []fr.Element
@@ -504,8 +495,6 @@ func Prove(r1cs *cs.R1CS, pk *ProvingKey, witness bn254witness.Witness, opt back
 	if err := <-chKrsDone; err != nil {
 		return nil, err
 	}
-
-	fmt.Printf("Time of the proof computation = %v (ms) \n", time.Since(t0).Milliseconds())
 
 	return proof, nil
 }

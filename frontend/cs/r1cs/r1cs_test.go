@@ -20,6 +20,7 @@ import (
 	"sort"
 	"testing"
 
+	"github.com/AlexandreBelling/gnark/frontend/schema"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"github.com/consensys/gnark-crypto/ecc"
 )
@@ -29,7 +30,7 @@ func TestQuickSort(t *testing.T) {
 	toSort := make(compiled.LinearExpression, 12)
 	rand := 3
 	for i := 0; i < 12; i++ {
-		toSort[i].SetVariableVisibility(compiled.Secret)
+		toSort[i].SetVariableVisibility(schema.Secret)
 		toSort[i].SetWireID(rand)
 		rand += 3
 		rand = rand % 13

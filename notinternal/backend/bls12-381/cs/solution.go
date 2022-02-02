@@ -24,6 +24,7 @@ import (
 	"sync"
 
 	"github.com/AlexandreBelling/gnark/backend/hint"
+	"github.com/AlexandreBelling/gnark/frontend/schema"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"github.com/AlexandreBelling/gnark/notinternal/utils"
 
@@ -31,9 +32,6 @@ import (
 
 	curve "github.com/consensys/gnark-crypto/ecc/bls12-381"
 )
-
-// ErrUnsatisfiedConstraint can be generated when solving a R1CS
-var ErrUnsatisfiedConstraint = errors.New("constraint is not satisfied")
 
 // solution represents elements needed to compute
 // a solution to a R1CS or SparseR1CS
@@ -228,7 +226,7 @@ func (s *solution) logValue(log compiled.LogEntry) string {
 
 		if isEval {
 			// we are evaluating
-			if visibility == compiled.Virtual {
+			if visibility == schema.Virtual {
 				// just add the constant
 				eval.Add(&eval, &s.coefficients[cID])
 				continue
@@ -242,7 +240,7 @@ func (s *solution) logValue(log compiled.LogEntry) string {
 			continue
 		}
 
-		if visibility == compiled.Virtual {
+		if visibility == schema.Virtual {
 			// it's just a constant
 			if cID == compiled.CoeffIdMinusOne {
 				toResolve = append(toResolve, "-1")

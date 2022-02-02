@@ -53,8 +53,8 @@ func (proof *Proof) CurveID() ecc.ID {
 	return curve.ID
 }
 
-// Only run the solver : returns the solution
-func Solve(r1cs *cs.R1CS, witness bn254witness.Witness, opt backend.ProverOption) (wires, a, b, c []fr.Element, err error) {
+// Prove generates the proof of knoweldge of a r1cs with full witness (secret + public part).
+func Solve(r1cs *cs.R1CS, witness bn254witness.Witness, opt backend.ProverConfig) (wires, a, b, c []fr.Element, err error) {
 	if len(witness) != int(r1cs.NbPublicVariables-1+r1cs.NbSecretVariables) {
 		return wires, a, b, c, fmt.Errorf("invalid witness size, got %d, expected %d = %d (public - ONE_WIRE) + %d (secret)", len(witness), int(r1cs.NbPublicVariables-1+r1cs.NbSecretVariables), r1cs.NbPublicVariables, r1cs.NbSecretVariables)
 	}
@@ -287,7 +287,7 @@ func ComputeProof(r1cs *cs.R1CS, pk *ProvingKey, a, b, c, wireValues []fr.Elemen
 
 
 // Prove generates the proof of knoweldge of a r1cs with full witness (secret + public part).
-func Prove(r1cs *cs.R1CS, pk *ProvingKey, witness bn254witness.Witness, opt backend.ProverOption) (*Proof, error) {
+func Prove(r1cs *cs.R1CS, pk *ProvingKey, witness bn254witness.Witness, opt backend.ProverConfig) (*Proof, error) {
 
 	// solve the R1CS and compute the a, b, c vectors
 	a := make([]fr.Element, len(r1cs.Constraints), pk.Domain.Cardinality)

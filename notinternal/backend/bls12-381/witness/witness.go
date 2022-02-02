@@ -18,15 +18,12 @@ package witness
 
 import (
 	"encoding/binary"
-	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"reflect"
+	"strings"
 
-	"github.com/AlexandreBelling/gnark/frontend"
-	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
-	"github.com/AlexandreBelling/gnark/notinternal/parser"
+	"github.com/AlexandreBelling/gnark/frontend/schema"
 
 	"github.com/consensys/gnark-crypto/ecc/bls12-381/fr"
 
@@ -51,25 +48,27 @@ func (witness *Witness) WriteTo(w io.Writer) (int64, error) {
 	return enc.BytesWritten() + 4, nil
 }
 
-// LimitReadFrom decodes witness from reader; first 4 bytes (uint32) must equal to expectedSize
-// this method won't read more than expectedSize * size(fr.Element)
-func (witness *Witness) LimitReadFrom(r io.Reader, expectedSize int) (int64, error) {
+func (witness *Witness) Len() int {
+	return len(*witness)
+}
+
+func (witness *Witness) Type() reflect.Type {
+	return reflect.TypeOf(fr.Element{})
+}
+
+func (witness *Witness) ReadFrom(r io.Reader) (int64, error) {
 
 	var buf [4]byte
 	if read, err := io.ReadFull(r, buf[:4]); err != nil {
 		return int64(read), err
 	}
 	sliceLen := binary.BigEndian.Uint32(buf[:4])
-	if int(sliceLen) != expectedSize {
-		return 4, errors.New("invalid witness size")
-	}
 
 	if len(*witness) != int(sliceLen) {
 		*witness = make([]fr.Element, sliceLen)
 	}
 
-	lr := io.LimitReader(r, int64(expectedSize*fr.Limbs*8))
-	dec := curve.NewDecoder(lr)
+	dec := curve.NewDecoder(r)
 
 	for i := 0; i < int(sliceLen); i++ {
 		if err := dec.Decode(&(*witness)[i]); err != nil {
@@ -80,9 +79,17 @@ func (witness *Witness) LimitReadFrom(r io.Reader, expectedSize int) (int64, err
 	return dec.BytesRead() + 4, nil
 }
 
-// FromFullAssignment extracts the full witness [ public | secret ]
-func (witness *Witness) FromFullAssignment(w frontend.Circuit) error {
-	nbSecret, nbPublic := count(w)
+// FromAssignment extracts the witness and its schema
+func (witness *Witness) FromAssignment(assignment interface{}, leafType reflect.Type, publicOnly bool) (*schema.Schema, error) {
+	s, err := schema.Parse(assignment, leafType, nil)
+	if err != nil {
+		return nil, err
+	}
+	nbSecret, nbPublic := s.NbSecret, s.NbPublic
+
+	if publicOnly {
+		nbSecret = 0
+	}
 
 	if len(*witness) < (nbPublic + nbSecret) {
 		(*witness) = make(Witness, nbPublic+nbSecret)
@@ -93,19 +100,25 @@ func (witness *Witness) FromFullAssignment(w frontend.Circuit) error {
 	var i, j int // indexes for secret / public variables
 	i = nbPublic // offset
 
-	var collectHandler parser.LeafHandler = func(visibility compiled.Visibility, name string, tInput reflect.Value) error {
-		v := tInput.Interface().(frontend.Variable)
+	var collectHandler schema.LeafHandler = func(visibility schema.Visibility, name string, tInput reflect.Value) error {
+		if publicOnly && visibility != schema.Public {
+			return nil
+		}
+		if tInput.IsNil() {
+			return fmt.Errorf("when parsing variable %s: missing assignment", name)
+		}
+		v := tInput.Interface()
 
 		if v == nil {
 			return fmt.Errorf("when parsing variable %s: missing assignment", name)
 		}
 
-		if visibility == compiled.Secret {
+		if !publicOnly && visibility == schema.Secret {
 			if _, err := (*witness)[i].SetInterface(v); err != nil {
 				return fmt.Errorf("when parsing variable %s: %v", name, err)
 			}
 			i++
-		} else if visibility == compiled.Public {
+		} else if visibility == schema.Public {
 			if _, err := (*witness)[j].SetInterface(v); err != nil {
 				return fmt.Errorf("when parsing variable %s: %v", name, err)
 			}
@@ -113,110 +126,43 @@ func (witness *Witness) FromFullAssignment(w frontend.Circuit) error {
 		}
 		return nil
 	}
-	return parser.Visit(w, "", compiled.Unset, collectHandler, tVariable)
+	return schema.Parse(assignment, leafType, collectHandler)
 }
 
-// FromPublicAssignment extracts the public part of witness
-func (witness *Witness) FromPublicAssignment(w frontend.Circuit) error {
-	_, nbPublic := count(w)
-
-	// note: does not contain ONE_WIRE for Groth16
-	if len(*witness) < (nbPublic) {
-		(*witness) = make(Witness, nbPublic)
-	} else {
-		(*witness) = (*witness)[:nbPublic]
-	}
-	var j int // index for public variables
-
-	var collectHandler parser.LeafHandler = func(visibility compiled.Visibility, name string, tInput reflect.Value) error {
-		if visibility == compiled.Public {
-			v := tInput.Interface().(frontend.Variable)
-
-			if v == nil {
-				return fmt.Errorf("when parsing variable %s: missing assignment", name)
-			}
-
-			if _, err := (*witness)[j].SetInterface(v); err != nil {
-				return fmt.Errorf("when parsing variable %s: %v", name, err)
-			}
-			j++
-		}
-		return nil
-	}
-	return parser.Visit(w, "", compiled.Unset, collectHandler, tVariable)
-}
-
-func count(w frontend.Circuit) (nbSecret, nbPublic int) {
-	var collectHandler parser.LeafHandler = func(visibility compiled.Visibility, name string, tInput reflect.Value) error {
-		if visibility == compiled.Secret {
-			nbSecret++
-		} else if visibility == compiled.Public {
-			nbPublic++
-		}
-		return nil
-	}
-
-	err := parser.Visit(w, "", compiled.Unset, collectHandler, tVariable)
-	if err != nil {
-		panic("count handler doesn't return an error -- this panic should not happen")
-	}
-	return
-}
-
-// ToJSON extracts the full witness [ public | secret ] and returns a JSON string
-// or an error if it can't convert values to field elements
-func ToJSON(w frontend.Circuit) (string, error) {
-	nbSecret, nbPublic := count(w)
-
-	type jsonStruct struct {
-		Public map[string]string
-		Secret map[string]string
-	}
-
-	toPrint := jsonStruct{
-		Public: make(map[string]string, nbPublic),
-		Secret: make(map[string]string, nbSecret),
-	}
-
-	var e fr.Element
-
-	var collectHandler parser.LeafHandler = func(visibility compiled.Visibility, name string, tInput reflect.Value) error {
-		v := tInput.Interface().(frontend.Variable)
-
-		if visibility == compiled.Secret {
-			if v == nil {
-				toPrint.Secret[name] = "<nil>"
-			} else {
-				if _, err := e.SetInterface(v); err != nil {
-					return fmt.Errorf("when parsing variable %s: %v", name, err)
+// ToAssignment sets to leaf values to witness underlying vector element values (in order)
+// see witness.MarshalBinary protocol description
+func (witness *Witness) ToAssignment(assignment interface{}, leafType reflect.Type, publicOnly bool) {
+	i := 0
+	setAddr := leafType.Kind() == reflect.Ptr
+	setHandler := func(v schema.Visibility) schema.LeafHandler {
+		return func(visibility schema.Visibility, name string, tInput reflect.Value) error {
+			if visibility == v {
+				if setAddr {
+					tInput.Set(reflect.ValueOf((&(*witness)[i])))
+				} else {
+					tInput.Set(reflect.ValueOf(((*witness)[i])))
 				}
-				toPrint.Secret[name] = e.String()
-			}
-		} else if visibility == compiled.Public {
-			if v == nil {
-				toPrint.Public[name] = "<nil>"
-			} else {
-				if _, err := e.SetInterface(v); err != nil {
-					return fmt.Errorf("when parsing variable %s: %v", name, err)
-				}
-				toPrint.Public[name] = e.String()
-			}
-		}
-		return nil
-	}
-	if err := parser.Visit(w, "", compiled.Unset, collectHandler, tVariable); err != nil {
-		return "", err
-	}
 
-	prettyJSON, err := json.MarshalIndent(toPrint, "", "    ")
-	if err != nil {
-		return "", err
+				i++
+			}
+			return nil
+		}
 	}
-	return string(prettyJSON), nil
+	_, _ = schema.Parse(assignment, leafType, setHandler(schema.Public))
+	if publicOnly {
+		return
+	}
+	_, _ = schema.Parse(assignment, leafType, setHandler(schema.Secret))
+
 }
 
-var tVariable reflect.Type
-
-func init() {
-	tVariable = reflect.ValueOf(struct{ A frontend.Variable }{}).FieldByName("A").Type()
+func (witness *Witness) String() string {
+	var sbb strings.Builder
+	sbb.WriteByte('[')
+	for i := 0; i < len(*witness); i++ {
+		sbb.WriteString((*witness)[i].String())
+		sbb.WriteByte(',')
+	}
+	sbb.WriteByte(']')
+	return sbb.String()
 }

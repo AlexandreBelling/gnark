@@ -8,8 +8,7 @@ import (
 	"time"
 
 	"github.com/AlexandreBelling/gnark/frontend"
-	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
-	"github.com/AlexandreBelling/gnark/notinternal/parser"
+	"github.com/AlexandreBelling/gnark/frontend/schema"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 
@@ -113,15 +112,15 @@ func randomFiller(w frontend.Circuit, curve ecc.ID) {
 }
 
 func fill(w frontend.Circuit, nextValue func() interface{}) {
-	var setHandler parser.LeafHandler = func(visibility compiled.Visibility, name string, tInput reflect.Value) error {
-		if visibility == compiled.Secret || visibility == compiled.Public {
+	var setHandler schema.LeafHandler = func(visibility schema.Visibility, name string, tInput reflect.Value) error {
+		if visibility == schema.Secret || visibility == schema.Public {
 			v := nextValue()
 			tInput.Set(reflect.ValueOf((v)))
 		}
 		return nil
 	}
 	// this can't error.
-	_ = parser.Visit(w, "", compiled.Unset, setHandler, tVariable)
+	_, _ = schema.Parse(w, tVariable, setHandler)
 }
 
 var tVariable reflect.Type

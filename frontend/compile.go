@@ -7,8 +7,7 @@ import (
 
 	"github.com/AlexandreBelling/gnark/backend"
 	"github.com/AlexandreBelling/gnark/debug"
-	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
-	"github.com/AlexandreBelling/gnark/notinternal/parser"
+	"github.com/AlexandreBelling/gnark/frontend/schema"
 	"github.com/consensys/gnark-crypto/ecc"
 )
 
@@ -25,6 +24,7 @@ type Builder interface {
 	NewPublicVariable(name string) Variable
 	NewSecretVariable(name string) Variable
 	Compile() (CompiledConstraintSystem, error)
+	SetSchema(*schema.Schema)
 }
 
 type NewBuilder func(ecc.ID) (Builder, error)
@@ -47,9 +47,9 @@ type NewBuilder func(ecc.ID) (Builder, error)
 //
 // initialCapacity is an optional parameter that reserves memory in slices
 // it should be set to the estimated number of constraints in the circuit, if known.
-func Compile(curveID ecc.ID, zkpID backend.ID, circuit Circuit, opts ...func(opt *CompileOption) error) (CompiledConstraintSystem, error) {
+func Compile(curveID ecc.ID, zkpID backend.ID, circuit Circuit, opts ...CompileOption) (CompiledConstraintSystem, error) {
 	// setup option
-	opt := CompileOption{}
+	opt := compileConfig{}
 	for _, o := range opts {
 		if err := o(&opt); err != nil {
 			return nil, fmt.Errorf("apply option: %w", err)
@@ -97,14 +97,14 @@ func bootstrap(builder Builder, circuit Circuit) (err error) {
 
 	// leaf handlers are called when encoutering leafs in the circuit data struct
 	// leafs are Constraints that need to be initialized in the context of compiling a circuit
-	var handler parser.LeafHandler = func(visibility compiled.Visibility, name string, tInput reflect.Value) error {
+	var handler schema.LeafHandler = func(visibility schema.Visibility, name string, tInput reflect.Value) error {
 		if tInput.CanSet() {
 			switch visibility {
-			case compiled.Secret:
+			case schema.Secret:
 				tInput.Set(reflect.ValueOf(builder.NewSecretVariable(name)))
-			case compiled.Public:
+			case schema.Public:
 				tInput.Set(reflect.ValueOf(builder.NewPublicVariable(name)))
-			case compiled.Unset:
+			case schema.Unset:
 				return errors.New("can't set val " + name + " visibility is unset")
 			}
 
@@ -114,9 +114,11 @@ func bootstrap(builder Builder, circuit Circuit) (err error) {
 	}
 	// recursively parse through reflection the circuits members to find all Constraints that need to be allocated
 	// (secret or public inputs)
-	if err := parser.Visit(circuit, "", compiled.Unset, handler, tVariable); err != nil {
+	s, err := schema.Parse(circuit, tVariable, handler)
+	if err != nil {
 		return err
 	}
+	builder.SetSchema(s)
 
 	// recover from panics to print user-friendlier messages
 	defer func() {
@@ -133,32 +135,47 @@ func bootstrap(builder Builder, circuit Circuit) (err error) {
 	return
 }
 
-// CompileOption enables to set optional argument to call of frontend.Compile()
-type CompileOption struct {
+// CompileOption defines option for altering the behaviour of the Compile
+// method. See the descriptions of the functions returning instances of this
+// type for available options.
+type CompileOption func(opt *compileConfig) error
+
+type compileConfig struct {
 	capacity                  int
 	ignoreUnconstrainedInputs bool
 	newBuilder                NewBuilder
 }
 
-// WithOutput is a Compile option that specifies the estimated capacity needed for internal variables and constraints
-func WithCapacity(capacity int) func(opt *CompileOption) error {
-	return func(opt *CompileOption) error {
+// WithCapacity is a compile option that specifies the estimated capacity needed
+// for internal variables and constraints. If not set, then the initial capacity
+// is 0 and is dynamically allocated as needed.
+func WithCapacity(capacity int) CompileOption {
+	return func(opt *compileConfig) error {
 		opt.capacity = capacity
 		return nil
 	}
 }
 
-// IgnoreUnconstrainedInputs when set, the Compile function doesn't check for unconstrained inputs
-func IgnoreUnconstrainedInputs(opt *CompileOption) error {
-	opt.ignoreUnconstrainedInputs = true
-	return nil
+// IgnoreUnconstrainedInputs is a compile option which allow compiling input
+// circuits where not all inputs are not constrained. If not set, then the
+// compiler returns an error if there exists an unconstrained input.
+//
+// This option is useful for debugging circuits, but should not be used in
+// production settings as it means that there is a potential error in the
+// circuit definition or that it is possible to optimize witness size.
+func IgnoreUnconstrainedInputs() CompileOption {
+	return func(opt *compileConfig) error {
+		opt.ignoreUnconstrainedInputs = true
+		return nil
+	}
 }
 
-// WithBuilder enables the compiler to build the constraint system with a user-defined builder
+// WithBuilder is a compile option which enables the compiler to build the
+// constraint system with a user-defined builder.
 //
 // /!\ This is highly experimental and may change in upcoming releases /!\
-func WithBuilder(builder NewBuilder) func(opt *CompileOption) error {
-	return func(opt *CompileOption) error {
+func WithBuilder(builder NewBuilder) CompileOption {
+	return func(opt *compileConfig) error {
 		opt.newBuilder = builder
 		return nil
 	}

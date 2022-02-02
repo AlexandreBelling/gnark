@@ -24,13 +24,16 @@ import (
 	"math/big"
 	"os"
 	"strings"
-	"text/template"
 
 	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/backend/witness"
+	"github.com/AlexandreBelling/gnark/frontend/schema"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/ioutils"
 
 	"github.com/consensys/gnark-crypto/ecc/bls12-377/fr"
+
+	bls12_377witness "github.com/AlexandreBelling/gnark/notinternal/backend/bls12-377/witness"
 )
 
 // SparseR1CS represents a Plonk like circuit
@@ -59,7 +62,7 @@ func NewSparseR1CS(ccs compiled.SparseR1CS, coefficients []big.Int) *SparseR1CS 
 // solution.values =  [publicInputs | secretInputs | internalVariables ]
 // witness: contains the input variables
 // it returns the full slice of wires
-func (cs *SparseR1CS) Solve(witness []fr.Element, opt backend.ProverOption) ([]fr.Element, error) {
+func (cs *SparseR1CS) Solve(witness []fr.Element, opt backend.ProverConfig) ([]fr.Element, error) {
 
 	// set the slices holding the solution.values and monitoring which variables have been solved
 	nbVariables := cs.NbInternalVariables + cs.NbSecretVariables + cs.NbPublicVariables
@@ -106,11 +109,11 @@ func (cs *SparseR1CS) Solve(witness []fr.Element, opt backend.ProverOption) ([]f
 			return solution.values, fmt.Errorf("constraint %d: %w", i, err)
 		}
 		if err := cs.checkConstraint(cs.Constraints[i], &solution); err != nil {
+			errMsg := err.Error()
 			if dID, ok := cs.MDebug[i]; ok {
-				debugInfoStr := solution.logValue(cs.DebugInfo[dID])
-				return solution.values, fmt.Errorf("%w: %s", ErrUnsatisfiedConstraint, debugInfoStr)
+				errMsg = solution.logValue(cs.DebugInfo[dID])
 			}
-			return solution.values, ErrUnsatisfiedConstraint
+			return solution.values, fmt.Errorf("constraint #%d is not satisfied: %s", i, errMsg)
 		}
 	}
 
@@ -238,11 +241,111 @@ func (cs *SparseR1CS) solveConstraint(c compiled.SparseR1C, solution *solution, 
 	return nil
 }
 
-// IsSolved returns nil if given witness solves the R1CS and error otherwise
-// this method wraps r1cs.Solve() and allocates r1cs.Solve() inputs
-func (cs *SparseR1CS) IsSolved(witness []fr.Element, opt backend.ProverOption) error {
-	_, err := cs.Solve(witness, opt)
+// IsSolved returns nil if given witness solves the SparseR1CS and error otherwise
+// this method wraps cs.Solve() and allocates cs.Solve() inputs
+func (cs *SparseR1CS) IsSolved(witness *witness.Witness, opts ...backend.ProverOption) error {
+	opt, err := backend.NewProverConfig(opts...)
+	if err != nil {
+		return err
+	}
+
+	v := witness.Vector.(*bls12_377witness.Witness)
+	_, err = cs.Solve(*v, opt)
 	return err
+}
+
+// GetConstraints return a list of constraint formatted as in the paper
+// https://eprint.iacr.org/2019/953.pdf section 6 such that
+// qL⋅xa + qR⋅xb + qO⋅xc + qM⋅(xaxb) + qC == 0
+// each constraint is thus decomposed in [5]string with
+// 		[0] = qL⋅xa
+//		[1] = qR⋅xb
+//		[2] = qO⋅xc
+//		[3] = qM⋅(xaxb)
+//		[4] = qC
+func (cs *SparseR1CS) GetConstraints() [][]string {
+	r := make([][]string, 0, len(cs.Constraints))
+	for _, c := range cs.Constraints {
+		fc := cs.formatConstraint(c)
+		r = append(r, fc[:])
+	}
+	return r
+}
+
+// r[0] = qL⋅xa
+// r[1] = qR⋅xb
+// r[2] = qO⋅xc
+// r[3] = qM⋅(xaxb)
+// r[4] = qC
+func (cs *SparseR1CS) formatConstraint(c compiled.SparseR1C) (r [5]string) {
+	isZeroM := (c.M[0].CoeffID() == compiled.CoeffIdZero) && (c.M[1].CoeffID() == compiled.CoeffIdZero)
+
+	var sbb strings.Builder
+	cs.termToString(c.L, &sbb, false)
+	r[0] = sbb.String()
+
+	sbb.Reset()
+	cs.termToString(c.R, &sbb, false)
+	r[1] = sbb.String()
+
+	sbb.Reset()
+	cs.termToString(c.O, &sbb, false)
+	r[2] = sbb.String()
+
+	if isZeroM {
+		r[3] = "0"
+	} else {
+		sbb.Reset()
+		sbb.WriteString(cs.Coefficients[c.M[0].CoeffID()].String())
+		sbb.WriteString("⋅")
+		sbb.WriteByte('(')
+		cs.termToString(c.M[0], &sbb, true)
+		sbb.WriteString(" × ")
+		cs.termToString(c.M[1], &sbb, true)
+		sbb.WriteByte(')')
+		r[3] = sbb.String()
+	}
+
+	r[4] = cs.Coefficients[c.K].String()
+
+	return
+}
+
+func (cs *SparseR1CS) termToString(t compiled.Term, sbb *strings.Builder, vOnly bool) {
+	if !vOnly {
+		tID := t.CoeffID()
+		if tID == compiled.CoeffIdOne {
+			// do nothing, just print the variable
+			sbb.WriteString("1")
+		} else if tID == compiled.CoeffIdMinusOne {
+			// print neg sign
+			sbb.WriteString("-1")
+		} else if tID == compiled.CoeffIdZero {
+			sbb.WriteByte('0')
+			return
+		} else {
+			sbb.WriteString(cs.Coefficients[tID].String())
+		}
+		sbb.WriteString("⋅")
+	}
+
+	vID := t.WireID()
+	visibility := t.VariableVisibility()
+
+	switch visibility {
+	case schema.Internal:
+		if _, isHint := cs.MHints[vID]; isHint {
+			sbb.WriteString(fmt.Sprintf("hv%d", vID-cs.NbPublicVariables-cs.NbSecretVariables))
+		} else {
+			sbb.WriteString(fmt.Sprintf("v%d", vID-cs.NbPublicVariables-cs.NbSecretVariables))
+		}
+	case schema.Public:
+		sbb.WriteString(fmt.Sprintf("p%d", vID))
+	case schema.Secret:
+		sbb.WriteString(fmt.Sprintf("s%d", vID-cs.NbPublicVariables))
+	default:
+		sbb.WriteString("<?>")
+	}
 }
 
 // checkConstraint verifies that the constraint holds
@@ -257,50 +360,17 @@ func (cs *SparseR1CS) checkConstraint(c compiled.SparseR1C, solution *solution) 
 	var t fr.Element
 	t.Mul(&m0, &m1).Add(&t, &l).Add(&t, &r).Add(&t, &o).Add(&t, &cs.Coefficients[c.K])
 	if !t.IsZero() {
-		return fmt.Errorf("%w\n%s + %s + (%s * %s) + %s + %s != 0", ErrUnsatisfiedConstraint,
+		return fmt.Errorf("qL⋅xa + qR⋅xb + qO⋅xc + qM⋅(xaxb) + qC != 0 → %s + %s + %s + (%s × %s) + %s != 0",
 			l.String(),
 			r.String(),
+			o.String(),
 			m0.String(),
 			m1.String(),
-			o.String(),
 			cs.Coefficients[c.K].String(),
 		)
 	}
 	return nil
 
-}
-
-// ToHTML returns an HTML human-readable representation of the constraint system
-func (cs *SparseR1CS) ToHTML(w io.Writer) error {
-	t, err := template.New("scs.html").Funcs(template.FuncMap{
-		"toHTML":      toHTMLTerm,
-		"toHTMLCoeff": toHTMLCoeff,
-		"add":         add,
-		"sub":         sub,
-	}).Parse(compiled.SparseR1CSTemplate)
-	if err != nil {
-		return err
-	}
-
-	return t.Execute(w, cs)
-}
-
-func toHTMLTerm(t compiled.Term, coeffs []fr.Element, MHints map[int]compiled.Hint) string {
-	var sbb strings.Builder
-	termToHTML(t, &sbb, coeffs, MHints, true)
-	return sbb.String()
-}
-
-func toHTMLCoeff(cID int, coeffs []fr.Element) string {
-	if cID == compiled.CoeffIdMinusOne {
-		// print neg sign
-		return "<span class=\"coefficient\">-1</span>"
-	}
-	var sbb strings.Builder
-	sbb.WriteString("<span class=\"coefficient\">")
-	sbb.WriteString(coeffs[cID].String())
-	sbb.WriteString("</span>")
-	return sbb.String()
 }
 
 // FrSize return fr.Limbs * 8, size in byte of a fr element

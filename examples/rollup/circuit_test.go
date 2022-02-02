@@ -26,13 +26,11 @@ import (
 	"github.com/consensys/gnark-crypto/ecc"
 )
 
-type circuitSignature struct {
-	Circuit `gnark:",embed"`
-}
+type circuitSignature Circuit
 
 // Circuit implements part of the rollup circuit only by delcaring a subset of the constraints
 func (t *circuitSignature) Define(api frontend.API) error {
-	if err := t.postInit(api); err != nil {
+	if err := (*Circuit)(t).postInit(api); err != nil {
 		return err
 	}
 	hFunc, err := mimc.NewMiMC("seed", api)
@@ -79,17 +77,15 @@ func TestCircuitSignature(t *testing.T) {
 	assert := test.NewAssert(t)
 
 	var signatureCircuit circuitSignature
-	assert.ProverSucceeded(&signatureCircuit, &operator.witnesses, test.WithCurves(ecc.BN254), test.WithCompileOpts(frontend.IgnoreUnconstrainedInputs))
+	assert.ProverSucceeded(&signatureCircuit, &operator.witnesses, test.WithCurves(ecc.BN254), test.WithCompileOpts(frontend.IgnoreUnconstrainedInputs()))
 
 }
 
-type circuitInclusionProof struct {
-	Circuit `gnark:",embed"`
-}
+type circuitInclusionProof Circuit
 
 // Circuit implements part of the rollup circuit only by delcaring a subset of the constraints
 func (t *circuitInclusionProof) Define(api frontend.API) error {
-	if err := t.postInit(api); err != nil {
+	if err := (*Circuit)(t).postInit(api); err != nil {
 		return err
 	}
 	hashFunc, err := mimc.NewMiMC("seed", api)
@@ -145,17 +141,15 @@ func TestCircuitInclusionProof(t *testing.T) {
 
 	var inclusionProofCircuit circuitInclusionProof
 
-	assert.ProverSucceeded(&inclusionProofCircuit, &operator.witnesses, test.WithCurves(ecc.BN254), test.WithCompileOpts(frontend.IgnoreUnconstrainedInputs))
+	assert.ProverSucceeded(&inclusionProofCircuit, &operator.witnesses, test.WithCurves(ecc.BN254), test.WithCompileOpts(frontend.IgnoreUnconstrainedInputs()))
 
 }
 
-type circuitUpdateAccount struct {
-	Circuit `gnark:",embed"`
-}
+type circuitUpdateAccount Circuit
 
 // Circuit implements part of the rollup circuit only by delcaring a subset of the constraints
 func (t *circuitUpdateAccount) Define(api frontend.API) error {
-	if err := t.postInit(api); err != nil {
+	if err := (*Circuit)(t).postInit(api); err != nil {
 		return err
 	}
 	verifyAccountUpdated(api, t.SenderAccountsBefore[0], t.ReceiverAccountsBefore[0],
@@ -202,7 +196,7 @@ func TestCircuitUpdateAccount(t *testing.T) {
 
 	var updateAccountCircuit circuitUpdateAccount
 
-	assert.ProverSucceeded(&updateAccountCircuit, &operator.witnesses, test.WithCurves(ecc.BN254), test.WithCompileOpts(frontend.IgnoreUnconstrainedInputs))
+	assert.ProverSucceeded(&updateAccountCircuit, &operator.witnesses, test.WithCurves(ecc.BN254), test.WithCompileOpts(frontend.IgnoreUnconstrainedInputs()))
 
 }
 
@@ -247,6 +241,6 @@ func TestCircuitFull(t *testing.T) {
 	var rollupCircuit Circuit
 
 	// TODO full circuit has some unconstrained inputs, that's odd.
-	assert.ProverSucceeded(&rollupCircuit, &operator.witnesses, test.WithCurves(ecc.BN254), test.WithCompileOpts(frontend.IgnoreUnconstrainedInputs))
+	assert.ProverSucceeded(&rollupCircuit, &operator.witnesses, test.WithCurves(ecc.BN254), test.WithCompileOpts(frontend.IgnoreUnconstrainedInputs()))
 
 }

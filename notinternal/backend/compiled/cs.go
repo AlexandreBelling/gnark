@@ -8,6 +8,7 @@ import (
 
 	"github.com/AlexandreBelling/gnark/backend"
 	"github.com/AlexandreBelling/gnark/backend/hint"
+	"github.com/AlexandreBelling/gnark/frontend/schema"
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/fxamacker/cbor/v2"
 )
@@ -35,19 +36,9 @@ type CS struct {
 
 	// a wire may point to at most one hint
 	MHints map[int]*Hint
+
+	Schema *schema.Schema
 }
-
-// Visibility encodes a Variable (or wire) visibility
-// Possible values are Unset, Internal, Secret or Public
-type Visibility uint8
-
-const (
-	Unset Visibility = iota
-	Internal
-	Secret
-	Public
-	Virtual
-)
 
 // Hint represents a solver hint
 // it enables the solver to compute a Wire with a function provided at solving time
@@ -203,6 +194,10 @@ func (cs *CS) ToHTML(w io.Writer) error { panic("not implemtened") }
 
 // GetCounters return the collected constraint counters, if any
 func (cs *CS) GetCounters() []Counter { return cs.Counters }
+
+func (cs *CS) GetSchema() *schema.Schema { return cs.Schema }
+
+func (cs *CS) GetConstraints() [][]string { panic("not implemented") }
 
 // Counter contains measurements of useful statistics between two Tag
 type Counter struct {

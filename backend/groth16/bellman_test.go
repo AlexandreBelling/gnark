@@ -6,6 +6,7 @@ import (
 	"encoding/binary"
 	"testing"
 
+	"github.com/AlexandreBelling/gnark/backend/witness"
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr"
 
@@ -109,7 +110,13 @@ func TestVerifyBellmanProof(t *testing.T) {
 		binary.Write(&buf, binary.BigEndian, uint32(len(inputsBytes)/(fr.Limbs*8)))
 		buf.Write(inputsBytes)
 
-		err = ReadAndVerify(proof, vk, &buf)
+		witness := &witness.Witness{
+			CurveID: ecc.BLS12_381,
+		}
+		err = witness.UnmarshalBinary(buf.Bytes())
+		require.NoError(t, err)
+
+		err = Verify(proof, vk, witness)
 		if test.ok {
 			assert.NoError(t, err)
 		}

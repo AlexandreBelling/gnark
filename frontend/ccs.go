@@ -17,6 +17,9 @@ package frontend
 import (
 	"io"
 
+	"github.com/AlexandreBelling/gnark/backend"
+	"github.com/AlexandreBelling/gnark/backend/witness"
+	"github.com/AlexandreBelling/gnark/frontend/schema"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
 	"github.com/consensys/gnark-crypto/ecc"
 )
@@ -27,6 +30,9 @@ type CompiledConstraintSystem interface {
 	io.WriterTo
 	io.ReaderFrom
 
+	// IsSolved returns nil if given witness solves the constraint system and error otherwise
+	IsSolved(witness *witness.Witness, opts ...backend.ProverOption) error
+
 	// GetNbVariables return number of internal, secret and public Variables
 	GetNbVariables() (internal, secret, public int)
 	GetNbConstraints() int
@@ -35,9 +41,11 @@ type CompiledConstraintSystem interface {
 	CurveID() ecc.ID
 	FrSize() int
 
-	// ToHTML generates a human readable representation of the constraint system
-	ToHTML(w io.Writer) error
-
 	// GetCounters return the collected constraint counters, if any
 	GetCounters() []compiled.Counter
+
+	GetSchema() *schema.Schema
+
+	// GetConstraints return a human readable representation of the constraints
+	GetConstraints() [][]string
 }

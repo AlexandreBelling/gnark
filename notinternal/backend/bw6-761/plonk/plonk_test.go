@@ -30,6 +30,7 @@ import (
 	"bytes"
 	"github.com/consensys/gnark-crypto/ecc/bw6-761/fr/kzg"
 	"math/big"
+	"reflect"
 	"testing"
 
 	"github.com/consensys/gnark-crypto/ecc"
@@ -101,7 +102,7 @@ func BenchmarkSetup(b *testing.B) {
 func BenchmarkProver(b *testing.B) {
 	ccs, _solution, srs := referenceCircuit()
 	fullWitness := bw6_761witness.Witness{}
-	err := fullWitness.FromFullAssignment(_solution)
+	_, err := fullWitness.FromAssignment(_solution, tVariable, false)
 	if err != nil {
 		b.Fatal(err)
 	}
@@ -113,7 +114,7 @@ func BenchmarkProver(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, err = bw6_761plonk.Prove(ccs.(*cs.SparseR1CS), pk, fullWitness, backend.ProverOption{})
+		_, err = bw6_761plonk.Prove(ccs.(*cs.SparseR1CS), pk, fullWitness, backend.ProverConfig{})
 		if err != nil {
 			b.Fatal(err)
 		}
@@ -123,12 +124,12 @@ func BenchmarkProver(b *testing.B) {
 func BenchmarkVerifier(b *testing.B) {
 	ccs, _solution, srs := referenceCircuit()
 	fullWitness := bw6_761witness.Witness{}
-	err := fullWitness.FromFullAssignment(_solution)
+	_, err := fullWitness.FromAssignment(_solution, tVariable, false)
 	if err != nil {
 		b.Fatal(err)
 	}
 	publicWitness := bw6_761witness.Witness{}
-	err = publicWitness.FromPublicAssignment(_solution)
+	_, err = publicWitness.FromAssignment(_solution, tVariable, true)
 	if err != nil {
 		b.Fatal(err)
 	}
@@ -138,7 +139,7 @@ func BenchmarkVerifier(b *testing.B) {
 		b.Fatal(err)
 	}
 
-	proof, err := bw6_761plonk.Prove(ccs.(*cs.SparseR1CS), pk, fullWitness, backend.ProverOption{})
+	proof, err := bw6_761plonk.Prove(ccs.(*cs.SparseR1CS), pk, fullWitness, backend.ProverConfig{})
 	if err != nil {
 		panic(err)
 	}
@@ -152,7 +153,7 @@ func BenchmarkVerifier(b *testing.B) {
 func BenchmarkSerialization(b *testing.B) {
 	ccs, _solution, srs := referenceCircuit()
 	fullWitness := bw6_761witness.Witness{}
-	err := fullWitness.FromFullAssignment(_solution)
+	_, err := fullWitness.FromAssignment(_solution, tVariable, false)
 	if err != nil {
 		b.Fatal(err)
 	}
@@ -162,7 +163,7 @@ func BenchmarkSerialization(b *testing.B) {
 		b.Fatal(err)
 	}
 
-	proof, err := bw6_761plonk.Prove(ccs.(*cs.SparseR1CS), pk, fullWitness, backend.ProverOption{})
+	proof, err := bw6_761plonk.Prove(ccs.(*cs.SparseR1CS), pk, fullWitness, backend.ProverConfig{})
 	if err != nil {
 		b.Fatal(err)
 	}
@@ -217,4 +218,10 @@ func BenchmarkSerialization(b *testing.B) {
 		_, _ = proof.WriteTo(&buf)
 	}
 
+}
+
+var tVariable reflect.Type
+
+func init() {
+	tVariable = reflect.ValueOf(struct{ A frontend.Variable }{}).FieldByName("A").Type()
 }

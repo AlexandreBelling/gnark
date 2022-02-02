@@ -17,6 +17,7 @@ limitations under the License.
 package groth16_bls24315
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/AlexandreBelling/gnark/backend"
@@ -71,7 +72,7 @@ func generateBls24315InnerProof(t *testing.T, vk *groth16_bls24315.VerifyingKey,
 
 	correctAssignment := witness.Witness{}
 
-	err = correctAssignment.FromFullAssignment(&w)
+	_, err = correctAssignment.FromAssignment(&w, tVariable, false)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -79,7 +80,7 @@ func generateBls24315InnerProof(t *testing.T, vk *groth16_bls24315.VerifyingKey,
 	// generate the data to return for the bls24315 proof
 	var pk groth16_bls24315.ProvingKey
 	groth16_bls24315.Setup(r1cs.(*backend_bls24315.R1CS), &pk, vk)
-	_proof, err := groth16_bls24315.Prove(r1cs.(*backend_bls24315.R1CS), &pk, correctAssignment, backend.ProverOption{})
+	_proof, err := groth16_bls24315.Prove(r1cs.(*backend_bls24315.R1CS), &pk, correctAssignment, backend.ProverConfig{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -88,7 +89,7 @@ func generateBls24315InnerProof(t *testing.T, vk *groth16_bls24315.VerifyingKey,
 	proof.Krs = _proof.Krs
 
 	correctAssignmentPublic := witness.Witness{}
-	err = correctAssignmentPublic.FromPublicAssignment(&w)
+	_, err = correctAssignmentPublic.FromAssignment(&w, tVariable, true)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -203,4 +204,10 @@ func BenchmarkCompile(b *testing.B) {
 		ccs, _ = frontend.Compile(ecc.BW6_633, backend.GROTH16, &circuit)
 	}
 	b.Log(ccs.GetNbConstraints())
+}
+
+var tVariable reflect.Type
+
+func init() {
+	tVariable = reflect.ValueOf(struct{ A frontend.Variable }{}).FieldByName("A").Type()
 }

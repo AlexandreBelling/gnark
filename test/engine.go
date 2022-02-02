@@ -42,7 +42,7 @@ import (
 type engine struct {
 	backendID backend.ID
 	curveID   ecc.ID
-	opt       backend.ProverOption
+	opt       backend.ProverConfig
 	// mHintsFunctions map[hint.ID]hintFunction
 }
 
@@ -52,9 +52,9 @@ type engine struct {
 // The test execution engine implements frontend.API using big.Int operations.
 //
 // This is an experimental feature.
-func IsSolved(circuit, witness frontend.Circuit, curveID ecc.ID, b backend.ID, opts ...func(opt *backend.ProverOption) error) (err error) {
+func IsSolved(circuit, witness frontend.Circuit, curveID ecc.ID, b backend.ID, opts ...backend.ProverOption) (err error) {
 	// apply options
-	opt, err := backend.NewProverOption(opts...)
+	opt, err := backend.NewProverConfig(opts...)
 	if err != nil {
 		return err
 	}
@@ -264,6 +264,13 @@ func (e *engine) IsZero(i1 frontend.Variable) frontend.Variable {
 	}
 
 	return (0)
+}
+
+// Cmp returns 1 if i1>i2, 0 if i1==i2, -1 if i1<i2
+func (e *engine) Cmp(i1, i2 frontend.Variable) frontend.Variable {
+	b1 := e.toBigInt(i1)
+	b2 := e.toBigInt(i2)
+	return e.toBigInt(b1.Cmp(&b2))
 }
 
 func (e *engine) AssertIsEqual(i1, i2 frontend.Variable) {

@@ -28,8 +28,8 @@ import (
 	"github.com/AlexandreBelling/gnark/backend"
 	"github.com/AlexandreBelling/gnark/backend/hint"
 	"github.com/AlexandreBelling/gnark/frontend"
+	"github.com/AlexandreBelling/gnark/frontend/schema"
 	"github.com/AlexandreBelling/gnark/notinternal/backend/compiled"
-	"github.com/AlexandreBelling/gnark/notinternal/parser"
 	"github.com/AlexandreBelling/gnark/notinternal/utils"
 )
 
@@ -426,6 +426,32 @@ func (system *sparseR1CS) IsZero(i1 frontend.Variable) frontend.Variable {
 	return m
 }
 
+// Cmp returns 1 if i1>i2, 0 if i1=i2, -1 if i1<i2
+func (system *sparseR1CS) Cmp(i1, i2 frontend.Variable) frontend.Variable {
+
+	bi1 := system.ToBinary(i1, system.BitLen())
+	bi2 := system.ToBinary(i2, system.BitLen())
+
+	var res frontend.Variable
+	res = 0
+
+	for i := system.BitLen() - 1; i >= 0; i-- {
+
+		iszeroi1 := system.IsZero(bi1[i])
+		iszeroi2 := system.IsZero(bi2[i])
+
+		i1i2 := system.And(bi1[i], iszeroi2)
+		i2i1 := system.And(bi2[i], iszeroi1)
+
+		n := system.Select(i2i1, -1, 0)
+		m := system.Select(i1i2, 1, n)
+
+		res = system.Select(system.IsZero(res), m, res)
+
+	}
+	return res
+}
+
 // Println behaves like fmt.Println but accepts Variable as parameter
 // whose value will be resolved at runtime when computed by the solver
 // Println enables circuit debugging and behaves almost like fmt.Println()
@@ -473,12 +499,12 @@ func (system *sparseR1CS) Println(a ...frontend.Variable) {
 func printArg(log *compiled.LogEntry, sbb *strings.Builder, a frontend.Variable) {
 
 	count := 0
-	counter := func(visibility compiled.Visibility, name string, tValue reflect.Value) error {
+	counter := func(visibility schema.Visibility, name string, tValue reflect.Value) error {
 		count++
 		return nil
 	}
 	// ignoring error, counter() always return nil
-	_ = parser.Visit(a, "", compiled.Unset, counter, tVariable)
+	_, _ = schema.Parse(a, tVariable, counter)
 
 	// no variables in nested struct, we use fmt std print function
 	if count == 0 {
@@ -487,7 +513,7 @@ func printArg(log *compiled.LogEntry, sbb *strings.Builder, a frontend.Variable)
 	}
 
 	sbb.WriteByte('{')
-	printer := func(visibility compiled.Visibility, name string, tValue reflect.Value) error {
+	printer := func(visibility schema.Visibility, name string, tValue reflect.Value) error {
 		count--
 		sbb.WriteString(name)
 		sbb.WriteString(": ")
@@ -505,7 +531,7 @@ func printArg(log *compiled.LogEntry, sbb *strings.Builder, a frontend.Variable)
 		return nil
 	}
 	// ignoring error, printer() doesn't return errors
-	_ = parser.Visit(a, "", compiled.Unset, printer, tVariable)
+	_, _ = schema.Parse(a, tVariable, printer)
 	sbb.WriteByte('}')
 }
 

@@ -824,8 +824,10 @@ func (system *r1CS) EnforceWire(v frontend.Variable) frontend.Variable {
 		linExp = u.LinExp
 	case compiled.LinearExpression:
 		linExp = u
+	case compiled.Term:
+		linExp = []compiled.Term{u}
 	default:
-		// Probably should just return the value
+		// Must be a constant
 		return v
 	}
 
@@ -840,7 +842,7 @@ func (system *r1CS) EnforceWire(v frontend.Variable) frontend.Variable {
 			// There should be exactly one coeffOne term
 			// Also, if at least one of the coeff has non-internal visibility
 			// We duplicate it. (it's to avoid computing complex offset calculation)
-			if coeffOnes > 0 || t.VariableVisibility() != schema.Internal {
+			if coeffOnes > 0 || t.VariableVisibility() == schema.Internal {
 				return createVar(v)
 			}
 			coeffOnes++

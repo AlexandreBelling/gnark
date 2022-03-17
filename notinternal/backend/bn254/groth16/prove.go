@@ -17,6 +17,8 @@
 package groth16
 
 import (
+	"time"
+
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr"
 
 	curve "github.com/consensys/gnark-crypto/ecc/bn254"
@@ -289,6 +291,8 @@ func ComputeProof(r1cs *cs.R1CS, pk *ProvingKey, a, b, c, wireValues []fr.Elemen
 // Prove generates the proof of knoweldge of a r1cs with full witness (secret + public part).
 func Prove(r1cs *cs.R1CS, pk *ProvingKey, witness bn254witness.Witness, opt backend.ProverConfig) (*Proof, error) {
 
+	t := time.Now()
+
 	// solve the R1CS and compute the a, b, c vectors
 	a := make([]fr.Element, len(r1cs.Constraints), pk.Domain.Cardinality)
 	b := make([]fr.Element, len(r1cs.Constraints), pk.Domain.Cardinality)
@@ -309,6 +313,8 @@ func Prove(r1cs *cs.R1CS, pk *ProvingKey, witness bn254witness.Witness, opt back
 		}
 	}
 
+	fmt.Printf("Solver time = %v ms \n", time.Since(t).Milliseconds())
+	t = time.Now()
 	
 	// set the wire values in regular form
 	utils.Parallelize(len(wireValues), func(start, end int) {
@@ -494,6 +500,7 @@ func Prove(r1cs *cs.R1CS, pk *ProvingKey, witness bn254witness.Witness, opt back
 		return nil, err
 	}
 
+	fmt.Printf("Solver time = %v ms \n", time.Since(t).Milliseconds())
 	return proof, nil
 }
 
